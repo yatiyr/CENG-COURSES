@@ -4,16 +4,23 @@
 
 1. Duyurular [ODTUCLASS](https://odtuclass.metu.edu.tr) üzerinden yapılacaktır. Duyuru geldiği zaman, **eXXXXXX@metu.edu.tr** hesabınıza bilgi e-mail'i gönderilecektir. E-mail hesaplarınızı her gün **en az bir defa** kontrol etmelisiniz. Aynı şekilde **eXXXXXXX@ceng.metu.edu.tr** adresinizi de kontrol etmelisiniz.
 2. Ceng111 dersinin [web sayfasında](http://ceng.metu.edu.tr/ceng111) ders programı vs. yanında ekstra öğrenim materyalleri de mevcuttur.
-3. Görünüşe göre **21 Aralık** dışında her hafta salı lab var(**Section2 için**).
+3. Görünüşe göre **21 Aralık** dışında her hafta salı lab var.
 4. Önümüzdeki **3** labda, linux komutlarını öğreneceğiz. **4.** labda ise **LINUX QUIZ** olacak.
 5. **LINUX QUIZ**'den sonra, python ile programlamayı öğrenmeye başlayacağız ve her hafta bir önceki hafta öğrendiklerimizle ilgili quiz olacak.
 6. Linux komutlarını öğrenirken [Lab Manual](https://user.ceng.metu.edu.tr/~ceng111/lab_manual_2014.pdf)'e göz gezdirerek öğreneceğimiz konular hakkında fikir sahibi olunması yararlı olacaktır.
 7. [COW](https://cow.ceng.metu.edu.tr/)' da duyurular yapılmaktadır. Burayı da düzenli bir şekilde kontrol etmek gerekiyor.
+8. Linux komutlarının yazılı olduğu [CHEAT SHEET](https://user.ceng.metu.edu.tr/~ceng111/linux_cheat_sheet.pdf)'i ve [Lab Manual](https://user.ceng.metu.edu.tr/~ceng111/lab_manual_2014.pdf)'ı bastırmanız önerilmektedir. Quiz'de bu dokümanlara bakabilirsiniz.
 
 ## Ubuntu kurulumu hakkında
 
 1. Windowun yanına Ubuntu'yu kurabilirsiniz (dual boot). Computer Club'ın hazırlamış olduğu [Windows'da Ubuntu Yüklü USB Oluşturma](https://www.youtube.com/watch?v=14dUdnKGLlY) ve [Windows'un Yanına Ubuntu Kurulumu (Dual Boot)](https://www.youtube.com/watch?v=6GywlAIJ8F4) vidyolarında kurulumun nasıl yapıldığı anlatılmaktadır.
 2. İlk seçenek yerine sanal makine kurarak (**VirtualBox**) hali hazırda kullandığınız işletim sistemi yanına ubuntu kurabilirsiniz. Nasıl yapılacağıyla ilgili şu [tutorial](https://www.youtube.com/watch?v=x5MhydijWmc)'ı inceleyebilirsiniz.
+
+## Bölüm hesabına windows'tan bağlanma
+
+Bu dokümanda **ssh** komutu linux komutlarının anlatıldığı kısımda anlatılmıştır. Bölümdeki bilgisayarlara ubuntu bilgisayarlarımızda **ssh** komutunu kullanarak bağlanıyoruz. 
+
+Windows'ta bunun için [mobaxterm](https://download.mobatek.net/2142021091974654/MobaXterm_Portable_v21.4.zip)'ü kullanarak rahat bir şekilde bölüm bilgisayarlarına bağlanıp dosya alışverişi yapabilir, terminal komutlarını çalıştırabiliriz.
 
 # Linux'a giriş
 
@@ -115,6 +122,9 @@ Dosya1'in izinlerini 640 olarak yazabilirz.
 
 # LAB1 KOMUTLAR
 
+Komutları kullanmaya alışmak için [Bandit Oyununun Birkaç Seviyesi](https://overthewire.org/wargames/bandit/) yararlı olabilir. Seviyeler ilerledikçe bu lab'ın gereksinimlerinin çok üstüne çıktığı için sadece merak edenler bakabilir.
+
+Sistem adminliği yapan, Daha çok sistemlerin mimari tarafıyla ilgilenen veya Siber Güvenlikle ilgilenen bilgisayar mühendisleri **linux** komutlarını çok iyi bilir. Bu işlerle çok uğraşmayan bilgisayar mühendisleri temel komutları kendine yetecek kadar bilir.
 
 Kullanışlı path'ler;
 
@@ -184,6 +194,10 @@ Bağlı olduğumuz makinenin adını bize verir
 e2098929@inek15:~$ hostname
 inek15
 ```
+
+# PASSWD
+
+Kullanıcının şifre değiştirmesini sağlar
 
 # CD
 
@@ -465,9 +479,151 @@ drwxr-xr-x 2 e2098929 uucp 4096 Kas  3 20:23 .hiddenDir
 -rw-r--r-- 1 e2098929 uucp    0 Kas  3 20:24 .hiddenFile.txt
 ```
 
+# TOUCH
+
+Dosya oluşturmak için **touch** komutu kullanılır. Relative ya da absolute path girip dosyayı eğer **write** permission'ımız varsa istediğimiz yerde oluşturabiliriz
+
+```bash
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir3 File1.txt
+e2098929@inek15:~/Desktop/Dir1$ touch newFile.txt
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir3 File1.txt newFile.txt
+```
+
+Başka path'e dosya oluşturma
+
+```bash
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir3 File1.txt
+e2098929@inek15:~/Desktop/Dir1$ touch newFile.txt
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir3 File1.txt newFile.txt
+```
+
+```bash
+e2098929@inek15:~/Desktop/Dir1$ ls Dir3
+-  File4.txt File5.txt File6.txt
+e2098929@inek15:~/Desktop/Dir1$ touch Dir3/newFile2.txt
+e2098929@inek15:~/Desktop/Dir1$ ls Dir3
+-  File4.txt  File5.txt  File6.txt  newFile2.txt
+```
+Peki varolan bir dosyanın adını girip **touch** kullanırsak ne olur? Dosyanın içindeki bilgiler kaybolmaz, sadece değiştirilme ve dosyaya ulaşım tarihi güncellenir.
+
+**touch** komutu ile aynı anda birden fazla dosya da oluşturabiliriz
+
+```bash
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir3  File1.txt  newFile.txt
+e2098929@inek15:~/Desktop/Dir1$ touch newFile3.txt newFile4.txt newFile5.txt
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir3  File1.txt  newFile.txt  newFile3.txt  newFile4.txt  newFile5.txt
+```
+
+# MKDIR
+
+Klasör oluşturmamızı sağlar
+
+```bash
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir3 File1.txt  newFile.txt  newFile3.txt  newFile4.txt  newFile5.txt
+e2098929@inek15:~/Desktop/Dir1$ mkdir Dir5
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir3  Dir5  File1.txt  newFile.txt  newFile3.txt  newFile4.txt  newFile5.txt
+```
+
+Aynı isimde başka bir klasör oluşturmaya çalışırsak
 
 
+```bash
+e2098929@inek15:~/Desktop/Dir1$ mkdir Dir5
+mkdir: cannot create directory 'Dir5': File exists
+```
 
+
+# MV
+
+Dosyaları belirttiğimiz path'e taşımamızı sağlar.
+
+```bash
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir3 File1.txt  newFile.txt  newFile3.txt  newFile4.txt  newFile5.txt
+e2098929@inek15:~/Desktop/Dir1$ mv File1.txt Dir3/File1.txt
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir3  Dir5  newFile.txt  newFile3.txt  newFile4.txt  newFile5.txt
+e2098929@inek15:~/Desktop/Dir1$ cd Dir3
+e2098929@inek15:~/Desktop/Dir1/Dir3$ ls
+-  File1.txt  File4.txt  File5.txt  File6.txt  newFile2.txt
+```
+
+Yukarıdaki mv kullanımında **Dir1** klasörü içindeki **File1.txt** dosyasını **Dir3** klasörünün içine taşıdık.
+
+mv komutunu bir dosyanın adını değiştirmek için de kullabiliriz. Bunun için dosyayı taşıyacağımız yer yine aynı klasörde olmalıdır. Örneğin,
+
+```bash
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir3  Dir5  newFile.txt  newFile3.txt  newFile4.txt  newFile5.txt
+e2098929@inek15:~/Desktop/Dir1$ mv newFile.txt newFile1000.txt
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir3  Dir5  newFile1000.txt  newFile3.txt  newFile4.txt  newFile5.txt
+```
+
+# CP
+
+Dosyaları kopyalamamızı sağlar. **mv** komutu gibi önce kopyalamak istediğimiz dosyayı, ondan sonra göndereceğimiz yeri ve ismini seçmemiz gerekir
+
+```bash
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir3  Dir5  newFile.txt  newFile3.txt  newFile4.txt  newFile5.txt
+e2098929@inek15:~/Desktop/Dir1$ cp newFile3.txt Dir3/newFile500.txt
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir3  Dir5  newFile1000.txt  newFile3.txt  newFile4.txt  newFile5.txt
+e2098929@inek15:~/Desktop/Dir1$ cd Dir3
+e2098929@inek15:~/Desktop/Dir1/Dir3$ ls
+-  File1.txt  File4.txt  File5.txt  File6.txt  newFile2.txt  newFile500.txt
+```
+
+# RM
+
+Dosyaları silmemizi sağlar
+
+```bash
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir100  Dir3  Dir5 newFile.txt newFile1000.txt  newFile3.txt  newFile4.txt  newFile5.txt
+e2098929@inek15:~/Desktop/Dir1$ rm -f newFile.txt
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir100  Dir3  Dir5  newFile1000.txt  newFile3.txt  newFile4.txt  newFile5.txt
+```
+
+Yukarıdaki **rm -f** olmazsa emin olup olmadığımızı soruyor. y(yes) ya da n(no) yazılabilir. 
+
+**ÖNEMLİ** rm -f ile silinen dosyalar geri getirilemez. Fakat grafik arayüz ile silinen dosyalar çöp kutusuna gider. O yüzden rm -f ile dosya silerken çok dikkatli olmak gerekir.
+
+Klasör silmek için de **rm -rf** yazılmalıdır. Buradaki **-r** parametresi **recursive** anlamına gelir. Yani bu klasör ve bunun altındaki her şeyi silmek anlamına gelir. Klasörler **-r** kullanılmadan silinemez.
+
+
+# SSH
+
+Başka bilgisayarlara bağlanmamıza ve o bilgisayarın içinde terminal komutlarını kullanabilmemizi sağlar. Bölüm bilgisayarlarımızın her birinde ssh serverları açıktır. Dışarıdan bağlanırken 8085. portu kullanmak gerekir.
+
+Bölüm bilgisayarlarımıza erişmek için şu komut kullanılır;
+
+```bash
+ssh 'kullanıcıAdı'@external.ceng.metu.edu.tr -p 8085
+```
+
+Sonrasında bize şifremizi soracak.
+
+Şifreyi de girdikten sonra bizi **divan**'a atacak. **divan**'a girdikten sonra yine benzer şekilde ssh kullanmamız gerek. Örnek olarak inek80'e bağlanalım
+
+```bash
+ssh inek80
+```
+Sonrasında tekrar şifremizi giriyoruz ve böylece bölüm bilgisayarlarımıza bağlanmış oluyoruz.
+
+Bölüm bilgisayarlarının durumunu kontrol etmek [inek status](http://ceng.metu.edu.tr/ineks.html) sayfasını kontrol etmek gerekir.
+
+Dolu bilgisayarlar **full**, boş olanlar **free**, erişilemez olanlar ise **unreachable** olarak sitede yazmaktadır. Bilgiler her 5 dakikada bir güncellenmektedir. Bağlanırken boş olan bilgisayarlara bağlanmayı tercih etmek gerekir.
 
 
 
