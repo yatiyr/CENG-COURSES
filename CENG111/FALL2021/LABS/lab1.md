@@ -110,10 +110,225 @@ Dosya1 için izinler;
 - group için **r** = 1, **w** = 0, **x** = 0
 - other için **r** = 0, **w** = 0, **x** = 0 ise
 
-Dosya1'in izinlerini 320 olarak yazabilirz.
+Dosya1'in izinlerini 640 olarak yazabilirz.
 
 
-## LAB1 KOMUTLAR
+# LAB1 KOMUTLAR
+
+
+Kullanışlı path'ler;
+
+- ".":  içinde bulunduğumuz klasörün path'i
+- "..": içinde bulunduğumuz klasörün üstündeki klasör'ün path'i. Örneğin;
+  - /home/bs06/e2098929 klasörü içindeysek ".." ->  /home/bs06 'dır
+- "~": home klasörü
+
+Komutları örneklendirmek için bundan sonraki örneklerde aşağıdaki resimde gösterilmiş
+klasör yapısında "~" yani home klasöründe başladığımızı varsayalım.
+
+- Yeşiller klasörleri
+- Maviler dosyaları göstermektedir
+
+![KomutOrnek](resources/lab1Resources/KomutOrnek1.png)
+
+<br/>
+<br/>
+<br/>
+
+# CD
+
+İçinde bulunduğumuz klasörü değiştirmemizi sağlar. Örnek olarak "~" yani home klasörü içinde olduğumuzu ve inek15'te login olduğumuzu varsayalım.
+
+<br/>
+
+## Örnek1 - "." Path
+
+```bash
+e2098929@inek15:~$ cd .
+e2098929@inek15:~$ |
+```
+mevcut klasör içinde kalır. Çünkü "." içinde bulunduğumuz klasörün **path**'i dir.
+
+<br/>
+
+## Örnek2 - Bir Klasör geriye gitmek
+
+
+```bash
+e2098929@inek15:~$ cd ..
+e2098929@inek15:/home/bs06$ |
+```
+
+klasör ağaç yapısında bir yukarı klasöre çıkılır. Çünkü ".." içinde bulunduğumuz klasör'ün üstündeki klasör'ün **path**'i dir. 
+
+İçinde bulunduğumuz klasör "**~**"(home) yani "**/home/bs06/e2098929**" ise bir üstündeki klasör de "**/home/bs06**" olacaktır.
+
+<br/>
+
+## Örnek3 - İki Klasör geriye gitmek
+
+
+```bash
+e2098929@inek15:~$ cd ../..
+e2098929@inek15:/home$ |
+```
+
+Örnek 2 de kullanılan ".." pathi birden çok kullanılabilir. Bu örnekte iki klasör yukarı çıkılmıştır.
+
+<br/>
+
+## Örnek3 - Desktop Klasörüne gitme
+
+Desktop klasörünün içine "~"(Home) içindeyken 4 şekilde ulaşabiliriz
+
+### 1- Bulunduğumuz klasörden itibaren klasör adıyla - (Relative Path)
+
+```bash
+e2098929@inek15:~$ cd Desktop
+e2098929@inek15:~/Desktop$ |
+```
+
+### 2- O anda bulunduğumuz klasör için tanımlanan "." kullanarak - (Relative Path from current directory)
+
+Yukarıdaki örnekten farkı yok.
+
+```bash
+e2098929@inek15:~$ cd ./Desktop
+e2098929@inek15:~/Desktop$ |
+```
+
+### 3- Home klasörü için tanımlanan "~" kullanarak - (Relative Path from home directory)
+
+```bash
+e2098929@inek15:~$ cd ~/Desktop
+e2098929@inek15:~/Desktop$ |
+```
+
+### 4- Root klasöründen ("/") itibaren tüm Path'i yazarak - (Full Path)
+
+```bash
+e2098929@inek15:~$ cd /home/bs06/e2098929/Desktop
+e2098929@inek15:~/Desktop$ |
+```
+
+## Örnek3 - Dir3 klasörüne gitmek
+
+Dir3 klasörünün içine "~"(Home) içindeyken 4 şekilde ulaşılabilir
+
+### 1- Bulunduğumuz klasörden itibaren klasör adıyla - (Relative Path)
+
+```bash
+e2098929@inek15:~$ cd Desktop/Dir1/Dir3
+e2098929@inek15:~/Desktop/Dir1/Dir3$ |
+```
+
+### 2- O anda bulunduğumuz klasör için tanımlanan "." kullanarak - (Relative Path from current directory)
+
+Yukarıdaki örnekten farkı yok.
+
+```bash
+e2098929@inek15:~$ cd ./Desktop/Dir1/Dir3
+e2098929@inek15:~/Desktop/Dir1/Dir3$ |
+```
+
+### 3- Home klasörü için tanımlanan "~" kullanarak - (Relative Path from home directory)
+
+```bash
+e2098929@inek15:~$ cd ~/Desktop/Dir1/Dir3
+e2098929@inek15:~/Desktop/Dir1/Dir3$ |
+```
+
+### 4- Root klasöründen ("/") itibaren tüm Path'i yazarak - (Full Path)
+
+```bash
+e2098929@inek15:~$ cd /home/bs06/e2098929/Desktop/Dir1/Dir3
+e2098929@inek15:~/Desktop/Dir1/Dir3$ |
+```
+   
+# CD komutunda özel durumlar
+
+Yukarıdaki klasör yapısını anlatan resimde "-" isminde bir klasör var. Desktop klasöründe başladığımızı düşünüp cd ile "-" klasörüne şöyle girmeye çalışalim;
+
+```bash
+e2098929@inek15:~/Desktop$ cd -
+-bash: cd: OLDPWD not set
+```
+
+"-" klasörüne girmek yerine "OLDPWD not set" hatası aldık. Çünkü "cd -" komutunun bir özelliği var.
+
+Eğer daha önce bir klasörün içine cd ile girilmişse, "cd -" bir önce bulunduğumuz klasöre gider. Yukarıdaki örnekte böyle olmadı çünkü Desktop klasöründe başladığımızı kabul ettik. Bu yüzden bir adım öncesi daha tanımlı değil. Bir adım öncesi tanımlı olduğu takdirde "cd -" komutu çalışacaktır.
+
+Örnek olarak;
+
+- "Desktop" klasöründe başlayalım.
+-  "Dir3" klasörüne cd ile geçelim. 
+-  Sonra "cd -" çalıştıralım.
+-  Bir daha "cd -" çalıştıralım.
+
+```bash
+e2098929@inek15:~/Desktop$ cd Dir1/Dir3
+e2098929@inek15:~/Desktop/Dir1/Dir3$ cd -
+e2098929@inek15:~/Desktop$ cd -
+e2098929@inek15:~/Desktop/Dir1/Dir3$
+```
+
+## Eğer Klasör adı "-" ise
+
+Yukarıdaki klasör yapısını gösteren resimde "-" isminde bir klasör var. Desktop klasöründe başladığımızı düşünelim.
+
+```bash
+e2098929@inek15:~/Desktop$ cd -
+-bash: cd: OLDPWD not set
+```
+
+"-" ismindeki klasöre girebilmek için direk klasörün adını yazamıyoruz. Bunun yerine "." kullanarak ya da root'dan itibaren **full path** vererek girebiliriz.
+
+"**.**" kullanarak
+
+```bash
+e2098929@inek15:~/Desktop$ cd ./-
+e2098929@inek15:~/Desktop/-$
+```
+
+**full path** kullanarak
+
+```bash
+e2098929@inek15:~/Desktop$ cd /home/bs06/e2098929/Desktop/-
+e2098929@inek15:~/Desktop/-$
+```
+## Eğer Klasör adında boşluklar varsa
+
+Örnekteki klasör yapısına göre "-" klasörünün içinde "Directory Name With Spaces" isminde bir klasör var. "-" Klasöründe başladığımızı varsayalım. Bu klasöre girerken;
+
+```bash
+e2098929@inek15:~/Desktop/-$ cd Directory Name With Spaces
+-bash: cd: too many arguments
+```
+yukarıdaki gibi giremiyoruz. İki şekilde bu sorunu çözebiliriz. Birincisi;
+
+```bash
+e2098929@inek15:~/Desktop/-$ cd Directory\ Name\ With\ Spaces
+e2098929@inek15:~/Desktop/-/Directory Name With Spaces$
+```
+
+yukarıda her boşluktan önce escape karakteri "\\" koyunca boşlukları cd nin okuyabileceği şekilde anlatabiliyoruz. İkinci olarak
+
+```bash
+e2098929@inek15:~/Desktop/-$ cd "Directory Name With Spaces"
+e2098929@inek15:~/Desktop/-/Directory Name With Spaces$
+```
+
+Directory Name With Spaces'in başına ve sonuna '  **"**  ' işareti koyunca cd komutu klasör adını harflerden oluşan bir liste(string) olarak algılıyor. Böylece isminde boşluk bulunan klasörlere bu şekilde girebiliyoruz.
+
+# LS KOMUTU
+
+![KomutOrnek](resources/lab1Resources/KomutOrnek1.png)
+
+ls komutu içinde bulunduğumuz dizindeki dosya ve klasörlerin listesini bize verir. Örneğin yukarıdaki klasör yapısını tekrar düşünecek olursak ve Dir1 klasöründe olduğumuzu varsayarsak;
+
+
+
+
 
 
 
