@@ -77,6 +77,12 @@ Dosyaların **path**'leri de aynı klasörler gibi yazılır.
 
 Her dosya ve klasörün güvenlik nedeniyle izinleri vardır (**permissions**). Bu izinler kullanıcı tipine göre 3 gruba(**owner**,**group**,**other**) ayrılmıştır ve her gruba özel 3 adet(**read**,**write**,**execute**) izin tipi vardır.
 
+- **owner** -> dosyayı oluşturan kişi
+- **group** -> dosyayı oluşturan kişinin bulunduğu grup
+- **other** -> herkes
+
+Aynı zamanda **root** kullanıcıları vardır. Bu kullanıcılar sistemde her şeye erişebilirler.
+
 <br/>
 
 ![Permissions](resources/lab1Resources/permissions.png)
@@ -89,9 +95,27 @@ yukarıdaki resimde **r**, **w** ve **x** 'lerin değerleri 0 ya da 1 olabilir. 
 
 Yukarıdaki resimde owner, group ve other için ayrı **r**, **w** ve **x** izinlerinin olduğunu gördük. Bu izinler 0 ya da 1 olabiliyor.
 
+Sadece owner'ın **r**,**w** ve **x** izinlerini düşünecek olursak bu izinleri 2'lik veya 10'luk tabanda bir sayı olarak yazmak mümkün. Örneğin owner için;
+
+- **r**, **w** ve **x** varsa 111 -> $2^{2}1 + 2^{1}1 + 2^{0}1 = 7$
+- **r** yok, **w** ve **x** varsa 011 -> $2^{2}0 + 2^{1}1 + 2^{0}1 = 3$
+- **r**, **w** ve **x** yoksa 000 -> $2^{2}0 + 2^{1}0 + 2^{0}0 = 0$
+- **r** var, **w** yok, **x** varsa 101 -> $2^{2}1 + 2^{1}0 + 2^{0}1 = 5$
+  
+Aynı şeyi **group** ve **other** için de düşünecek olursak dosya ya da klasörün izinlerini 3 tane 10'luk tabanda sayı ile anlatmamız mümkün oluyor. Örnek olarak;
+
+Dosya1 için izinler;
+
+- owner için **r** = 1, **w** = 1, **x** = 0
+- group için **r** = 1, **w** = 0, **x** = 0
+- other için **r** = 0, **w** = 0, **x** = 0 ise
+
+Dosya1'in izinlerini 320 olarak yazabilirz.
+
+
 ## LAB1 KOMUTLAR
 
-- `cd`
+
 
 
 
