@@ -22,6 +22,49 @@ Bu dokümanda **ssh** komutu linux komutlarının anlatıldığı kısımda anla
 
 Windows'ta bunun için [mobaxterm](https://download.mobatek.net/2142021091974654/MobaXterm_Portable_v21.4.zip)'ü kullanarak rahat bir şekilde bölüm bilgisayarlarına bağlanıp dosya alışverişi yapabilir, terminal komutlarını çalıştırabiliriz.
 
+Yukarıdaki linkten mobaxterm'ün zip dosyasını indirip herhangi bir yere çıkartabilirsiniz. Sonrasında **MobaXterm_Personal_21.4.exe** dosyasını çalıştırın. Karşınıza buna benzer bir ekran gelecek;
+
+Aşağıdaki resimde sol üstteki Session kısmına tıklıyoruz;
+
+![mobaxterm1](resources/lab1Resources/Mobaxterm1.PNG)
+
+SSH kısmını seçiyoruz
+
+![mobaxterm1](resources/lab1Resources/Mobaxterm8.PNG)
+
+Basic SSH settings kısmında;
+
+- Remote host kısmına **external.ceng.metu.edu.tr**
+- specify username kısmına tik atıp username'e kendi bölüm kullanıcı adınız
+- port kısmına da 8085 giriyoruz
+
+![mobaxterm1](resources/lab1Resources/Mobaxterm9.PNG)
+
+Şifremizi giriyoruz
+
+![mobaxterm1](resources/lab1Resources/Mobaxterm4.PNG)
+
+Kaydetmek istiyorsak onaylıyoruz
+
+![mobaxterm1](resources/lab1Resources/Mobaxterm5.PNG)
+
+Son olarak master şifresi de sorabilir buraya da kafamıza göre şifre girebiliriz
+
+![mobaxterm1](resources/lab1Resources/Mobaxterm6.PNG)
+
+Ve sonunda bölüm bilgisayarında **divan**'a bağlandık. Sol tarafta dosya yapısı da gözüküyor.
+Fareyle kendi bilgisayarımızdan kolayca dosya alıp dosya çekebiliriz.
+
+![mobaxterm1](resources/lab1Resources/Mobaxterm10.PNG)
+
+Aynı zamanda açılan terminal'de ssh ile bölüm bilgisayarlarımızdan(inek) herhangi birine örneğin;
+
+- **ssh inek80** diyerek bağlanmak gerekiyor.
+
+Ve böylece windows bilgisayarımızdan da bölüm bilgisayarlarına rahatça bağlanabilir, dosya alışverişi yapıp
+terminalde gerekli komutları çalıştırabiliriz.
+
+
 # Linux'a giriş
 
 Lablarımızda bilgisayarlar(inekler) Linux işletim sisteminin Ubuntu dağıtımı kullanılmaktadır. Ilerleyen sınıflarda, bölüm ödevleri ve projelerinde işleri rahat sürdürebilmek için Linux dağıtımlarında komut satırında(terminal) temel işlemleri yapmayı öğrenmek gerekir.
