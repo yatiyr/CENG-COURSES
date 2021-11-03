@@ -462,8 +462,7 @@ drwxr-xr-x e2098929 uucp 4096 Kas 3 16:34 Dir3
 -rw-r--r-- e2098929 uucp    0 Kas 3 16:25 File1.txt
 ```
 
-gelen sonucun ilk satırında listelenen elemanların toplam kullandıkları **physical_block**'ların sayısını verir.
-Dir1 klasörü içinde 4 tane eleman var. Alttaki satırlarda;
+gelen sonucun ilk satırında listelenen elemanların toplam kullandıkları **physical_block**'ların sayısını verir. Alttaki satırlarda;
 
 - İlk sütunda **ilk harf** elemanın türünü belirtir. Geriye kalan harfler **permission**'lardır. Eğer ilk harf:
   - **-** ise file
