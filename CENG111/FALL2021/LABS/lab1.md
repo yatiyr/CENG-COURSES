@@ -135,6 +135,56 @@ klasör yapısında "~" yani home klasöründe başladığımızı varsayalım.
 <br/>
 <br/>
 
+# ECHO
+
+**echo** komutu verdiğimiz argümanı **terminal'e** bastırmaya yarar.
+
+```bash
+e2098929@inek15:~$ echo Hello World
+Hello World
+```
+```bash
+e2098929@inek15:~$ echo "Hello World"
+Hello World
+```
+# W
+
+**w** komutu bilgisayara sizinle birlikte kimlerin login olduğunu gösterir;
+
+```bash
+ 21:22:57 up 5 days, 21:55,  2 users,  load average: 0,00, 0,02, 0,00
+e2098929@inek15:~$ w
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+e2521409 :1       :1               Sal15   ?xdm?   1:44m  0.00s /usr/lib/gdm3/gdm-x-session --run-script env GNOME_SHELL_SESSION_MODE=ubuntu /usr/bin
+e2098929    pts/0    111.122.111.57   21:10    1.00s  0.06s  0.00s w
+
+```
+
+# PWD
+
+**pwd** komutu içinde bulunduğumuz klasörün ismini bize verir
+
+```bash
+e2098929@inek15:~$ pwd
+/home/bs06/e2098929
+```
+# WHOAMI
+
+Kullanıcının adını döndürür
+
+```bash
+e2098929@inek15:~$ whoami
+e2098929
+```
+# HOSTNAME
+
+Bağlı olduğumuz makinenin adını bize verir
+
+```bash
+e2098929@inek15:~$ hostname
+inek15
+```
+
 # CD
 
 İçinde bulunduğumuz klasörü değiştirmemizi sağlar. Örnek olarak "~" yani home klasörü içinde olduğumuzu ve inek15'te login olduğumuzu varsayalım.
@@ -325,6 +375,95 @@ Directory Name With Spaces'in başına ve sonuna '  **"**  ' işareti koyunca cd
 ![KomutOrnek](resources/lab1Resources/KomutOrnek1.png)
 
 ls komutu içinde bulunduğumuz dizindeki dosya ve klasörlerin listesini bize verir. Örneğin yukarıdaki klasör yapısını tekrar düşünecek olursak ve Dir1 klasöründe olduğumuzu varsayarsak;
+
+```bash
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir3 File1.txt
+```
+Bu komutla sadece Dir3 klasörü ve File1.txt dosyasını görebildik. Fakat yukarıdaki resme bakacak olursak Dir1 klasörü içinde **.hiddenDir** ve **.hiddenFile.txt** isminde bir klasör ve bir dosya mevcut.
+
+Bu iki dosyayı göremememizin sebebi bu klasör ve dosyanın gizli olmasıdır.
+
+Eğer dosya ya da klasörün isminin ilk karakteri "." ise, sadece ls komutunu yazdığımızda bu elemanları gizli oldukları için göremeyiz.
+
+Gizli dosya ve klasörleri de **ls** komutuyla görebilmek için **ls -a** komutunu kullanmamız gerekir;
+
+```bash
+e2098929@inek15:~/Desktop/Dir1$ ls -a
+. .. .hiddenDir .hiddenFile.txt Dir3 File1.txt
+```
+Bu komutla **.hiddenDir** klasörü ve **.hiddenFile.txt** dosyasını görüntüleyebildik. Aynı zamanda bulunduğumuz klasörü belirten **.** klasörü ile bir üst klasörü belirten **..** klasörünü de bu şekilde görüyoruz.
+
+## LS komutuyla dosya izinleri görüntüleme
+
+Permissions kısmında dosya izinlerini görmüştük. **ls** komutuyla dosya ve klasörlerin **permission**'larını da görüntüleyebiliriz. Bunun için **ls -l** komutunu kullanmamız gerekir;
+
+```bash
+e2098929@inek15:~/Desktop/Dir1$ ls -l
+total 4
+drwxr-xr-x e2098929 uucp 4096 Kas 3 16:34 Dir3
+-rw-r--r-- e2098929 uucp    0 Kas 3 16:25 File1.txt
+```
+
+gelen sonucun ilk satırında listelenen elemanların toplam kullandıkları **physical_block**'ların sayısını verir.
+Dir1 klasörü içinde 4 tane eleman var. Alttaki satırlarda;
+
+- İlk sütunda **ilk harf** elemanın türünü belirtir. Geriye kalan harfler **permission**'lardır. Eğer ilk harf:
+  - **-** ise file
+  - **d** ise directory(folder)
+  - **l** ise Soft link
+  - **c** ise character-type special file
+  - **b** ise Block-type special file
+  - **p** ise FIFO file (pipe)
+  - **s** ise socket file
+
+<br/>
+
+- **drwxr-xr-x:** bu kısmın en başındaki **d** harfi bu elemanın(Dir3) bir klasör olduğunu söyler. Geri kalan **rwxr-xr-x** ise bu klasörün **permission**'larıdır. Yanı **Dir3** klasörü için;
+  - **owner**: **read**, **write** ve **execute** iznine
+  - **group**: **read** ve **execute**
+  - **other**: **read** ve **execute** iznine sahiptir
+
+<br/>  
+
+- **-rw-r--r--** bu kısmın en başındaki **-** karakteri bu elemanın(File1.txt) bir dosya olduğunu söyler. Geri kalan **rw-r--r--** ise bu dosyanın **permission**'larıdır. Yani **File1.txt** için;
+  - **owner**: **read** ve **write**
+  - **group**: **read**
+  - **other**: **read** iznine sahiptir
+
+<br/>
+
+- **İkinci sütunda** kullanıcı adı yazar
+- **Üçüncü sütunda** elemanın boyutu yazar
+- **Dört Beş ve Altıncı** sütunlarda oluşturulduğu ya da değiştirildiği zaman yazar
+- **Son sütunda** dosya ya da klasörün adı yazar
+
+
+## LS komutuyla hem izinleri hem de gizli dosya ve klasörleri görüntüleme
+
+Bunun için önceden kullandığımız **-l** ve **-a** parametreleri birleştirilerek **-la** ya da **-al** şeklinde kullanılır. Örneğin **Dir1** için;
+
+```bash
+e2098929@inek15:~/Desktop/Dir1$ ls -la
+total 16
+drwxr-xr-x  4 e2098929 uucp 4096 Kas  3 20:24 .
+drwx------ 10 e2098929 uucp 4096 Kas  3 16:26 ..
+drwxr-xr-x  3 e2098929 uucp 4096 Kas  3 16:34 Dir3
+-rw-r--r--  1 e2098929 uucp    0 Kas  3 16:25 File1.txt
+drwxr-xr-x  2 e2098929 uucp 4096 Kas  3 20:23 .hiddenDir
+-rw-r--r--  1 e2098929 uucp    0 Kas  3 20:24 .hiddenFile.txt
+```
+
+sonucunu alırız. Eğer burada **.** ve **..** klasörlerini görmek istemiyorsak fakat gizli klasör ve dosyaları da görüntelemek istiyorsak **ls -lA** komutunu kullanmamız gerekir.
+
+```bash
+e2098929@inek15:~/Desktop/Dir1$ ls -la
+total 8
+drwxr-xr-x 3 e2098929 uucp 4096 Kas  3 16:34 Dir3
+-rw-r--r-- 1 e2098929 uucp    0 Kas  3 16:25 File1.txt
+drwxr-xr-x 2 e2098929 uucp 4096 Kas  3 20:23 .hiddenDir
+-rw-r--r-- 1 e2098929 uucp    0 Kas  3 20:24 .hiddenFile.txt
+```
 
 
 
