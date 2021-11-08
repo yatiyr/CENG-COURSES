@@ -1,4 +1,4 @@
-# CENG 111 - LAB1 (FALL 2021)
+# CENG 111 - LAB1- LAB2 (FALL 2021)
 
 ## Genel Bilgiler
 
@@ -102,14 +102,14 @@ yukarıdaki resimde **r**, **w** ve **x** 'lerin değerleri 0 ya da 1 olabilir. 
 
 Yukarıdaki resimde owner, group ve other için ayrı **r**, **w** ve **x** izinlerinin olduğunu gördük. Bu izinler 0 ya da 1 olabiliyor.
 
-Sadece owner'ın **r**,**w** ve **x** izinlerini düşünecek olursak bu izinleri 2'lik veya 10'luk tabanda bir sayı olarak yazmak mümkün. Örneğin owner için;
+Sadece owner'ın **r**,**w** ve **x** izinlerini düşünecek olursak bu izinleri 2'lik veya 8'lik tabanda bir sayı olarak yazmak mümkün. Örneğin owner için;
 
 - **r**, **w** ve **x** varsa 111 -> 2<sup>2</sup>1 + 2<sup>1</sup>1 + 2<sup>0</sup>1 = 7
 - **r** yok, **w** ve **x** varsa 011 -> 2<sup>2</sup>0 + 2<sup>1</sup>1 + 2<sup>0</sup>1 = 3
 - **r**, **w** ve **x** yoksa 000 -> 2<sup>2</sup>0 + 2<sup>1</sup>0 + 2<sup>0</sup>0 = 0
 - **r** var, **w** yok, **x** varsa 101 -> 2<sup>2</sup>1 + 2<sup>1</sup>0 + 2<sup>0</sup>1 = 5
   
-Aynı şeyi **group** ve **other** için de düşünecek olursak dosya ya da klasörün izinlerini 3 tane 10'luk tabanda sayı ile anlatmamız mümkün oluyor. Örnek olarak;
+Aynı şeyi **group** ve **other** için de düşünecek olursak dosya ya da klasörün izinlerini 3 tane 8'lik tabanda sayı ile anlatmamız mümkün oluyor. Örnek olarak;
 
 Dosya1 için izinler;
 
@@ -601,6 +601,29 @@ Yukarıdaki **rm -f** olmazsa emin olup olmadığımızı soruyor. y(yes) ya da 
 
 Klasör silmek için de **rm -rf** yazılmalıdır. Buradaki **-r** parametresi **recursive** anlamına gelir. Yani bu klasör ve bunun altındaki her şeyi silmek anlamına gelir. Klasörler **-r** kullanılmadan silinemez.
 
+# RMDIR
+
+Boş olan klasörleri silerken kullanılabilir, bunun için `rm` komutu `-rf` eklenerek de kullanılabilir.
+
+Eğer klasör boş değilse
+
+```bash
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir100  Dir3  Dir5 newFile.txt newFile1000.txt  newFile3.txt  newFile4.txt  newFile5.txt RMDIR
+e2098929@inek15:~/Desktop/Dir1$ rmdir Dir3
+rmdir: failed to remove 'Dir3': Directory not empty
+```
+
+Eğer klasör boş ise
+
+```bash
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir100  Dir3  Dir5 newFile.txt newFile1000.txt  newFile3.txt  newFile4.txt  newFile5.txt
+e2098929@inek15:~/Desktop/Dir1$ rmdir Dir100
+e2098929@inek15:~/Desktop/Dir1$ ls
+Dir3  Dir5  newFile.txt newFile1000.txt  newFile3.txt  newFile4.txt  newFile5.txt
+```
+
 
 # SSH
 
@@ -625,8 +648,128 @@ Bölüm bilgisayarlarının durumunu kontrol etmek [inek status](http://ceng.met
 
 Dolu bilgisayarlar **full**, boş olanlar **free**, erişilemez olanlar ise **unreachable** olarak sitede yazmaktadır. Bilgiler her 5 dakikada bir güncellenmektedir. Bağlanırken boş olan bilgisayarlara bağlanmayı tercih etmek gerekir.
 
+# SFTP
 
+Başka bilgisayarlara bağlanıp dosya çekmeye veya dosya göndermeye yarar. Bölüm bilgisayarlarına bağlanmak için;
 
+```bash
+sftp -P 8085 'kullanıcı adı'@external.ceng.metu.edu.tr
+```
+
+şeklinde yazılması lazım. Sonrasında standard linux  `put` ve `get` komutları kullanılarak dosya çekme ve ekleme işlemleri yapılabilir. 
+
+- `put` komutundan sonra local dosyanın pathi ve ardından koymak istediğimiz remote path'i
+  
+- `get` komutundan sonra remote dosyanın pathi ve ardından koymak istediğimiz local path'i  girmemiz gerekir.
+  
+- local pathi görmek için `lpwd`, remote path görmek için `pwd` kullanılabilir.
+
+Örneğin evdeki bilgisayardan okul bilgisayarına bağlanmışsak
+
+```bash
+sftp> lpwd
+Local working directory: /home/yatiyr
+sftp> pwd
+Remote working directory: /home/bs06/e2098929/Desktop
+```
+Dosya çekmek için `get` (~/Desktop içinde olduğumuzu düşünelim);
+
+```bash
+sftp> ls
+-       Dev     Dir1    Dir2    Name    RMDIR   Spaces  With    lab 
+sftp> get -r Dir1 /home/yatiyr/Desktop
+Fetching /home/bs06/e2098929/Desktop/Dir1/ to /home/yatiyr/Desktop/Dir1
+Retrieving /home/bs06/e2098929/Desktop/Dir1
+Retrieving /home/bs06/e2098929/Desktop/Dir1/Dir5
+Retrieving /home/bs06/e2098929/Desktop/Dir1/Dir3
+Retrieving /home/bs06/e2098929/Desktop/Dir1/Dir3/-
+Retrieving /home/bs06/e2098929/Desktop/Dir1/.hiddenDir
+/home/bs06/e2098929/Desktop/Dir1/newFile1000.txt                                              100%    6     0.2KB/s   00:00
+sftp>
+```
+
+Yukarıda `get` komutuna `-r` eklememizin sebebi **Dir1**'in klasör olması. Önceki komutlarda uygulanan kurallar geçerlidir.
+
+Ev bilgisayarında **Desktop** içinde olan bir klasörü bölüm hesabına gönderme `put` için;
+
+```bash
+sftp> lpwd
+Local working directory: /home/yatiyr
+sftp> pwd
+Remote working directory: /home/bs06/e2098929
+sftp> put Desktop/sifre.txt
+Uploading Desktop/sifre.txt to /home/bs06/e2098929/sifre.txt
+Desktop/sifre.txt                             100%   28     0.4KB/s   00:00 
+```
+
+# DU
+
+Dosya ya da klasörlerin diskteki boyutlarını gösterir.
+
+```du``` komutuna ```-s``` eklersek sadece toplam boyutu görürüz. Buna ```-h``` eklersek **human readable** hale getiririz. Örneğin Desktop içinde olup Dir1'e bakalım
+
+```bash
+e2098929@inek15:~/Desktop$ du Dir1
+4	Dir1/Dir5
+4	Dir1/Dir3/-
+8	Dir1/Dir3
+4	Dir1/.hiddenDir
+24	Dir1
+e2098929@inek15:~/Desktop$ du -s Dir1
+24	Dir1
+e2098929@inek15:~/Desktop$ du -sh Dir1
+24K	Dir1
+```
+# CHMOD
+
+Dosyaların izinlerini değiştirmemizi sağlar. [Permissions](#permissions) kısmında belirtilen kurallar çerçevesinde **user**,**group** ve **other** için 8'lik tabanda sayılar yazılır. Örneğin ```chmod 755``` gibi.
+
+Örneğin ```~/Desktop``` içinde ```permission.sh`` diye bir dosyamız olsun;
+
+```bash
+e2098929@inek15:~/Desktop$ ls -l permission.txt
+---------- 1 e2098929 uucp 0 Kas  8 19:16 permission.txt
+```
+
+dosyanın hiçbir izni yok gibi duruyor. Biz bu dosyaya örnek olarak sadece user için **r**,**w** ve **x** izinlerini ```chmod 700``` komutunu yazarak verebiliriz. Fakat bunun başka bir yolu daha var;
+
+```bash
+e2098929@inek15:~/Desktop$ ls -l permission.sh
+---------- 1 e2098929 uucp 0 Kas  8 19:16 permission.sh,
+e2098929@inek15:~/Desktop$ chmod u+rwx permission.sh
+e2098929@inek15:~/Desktop$ ls -l permission.sh
+-rwx------ 1 e2098929 uucp 27 Kas  8 19:19 permission.sh
+```
+Yani ```chmod 'permission group(u, g, o)'|'operator(+, -)'|'permission(r,w,x)' ``` kullanarak belli gruplara dosya için izin verip izinlerini geri alabiliriz.
+
+# MAN
+
+Komutların nasıl kullanıldığını gösterir. Kullanıcıların her komutu ezberlemelerinin mümkün olmamasından dolayı ```man``` kullanarak araştırılan komutun hangi argümanları ve parametreleri aldığı görülebilir ve hakkında bilgi edilinebilir.
+
+```bash
+e2098929@inek15:~/Desktop$ man ls
+```
+
+```man``` komutu girildikten sonra okuma bitince ```q``` tuşuna basarak geri dönülebilir.
+
+# WILDCARDS (KOMUT DEĞİL)
+
+Wildcardlar komut değildir, fakat bazı ifadeleri ayırt etmemizi sağlamaktadır. Bazen dosya sistemimizde çok fazla dosya olabilir ve bizim ihtiyacımız olanlar belki isimleri belli şekilde başlayan,biten vb. şeklinde dosyalardır. Bu durumda **wildcard** kullanabiliriz.
+
+- **?** bir karakter yerine geçer
+- **\*** sıfır ya da daha fazla karakter
+
+Örneğin **?_file\*.txt** şeklinde bir ifade girersek;
+
+- Başında herhangi bir harf bulunacak
+- **file** kısmından sonra 0 ya da daha fazla karakter gelebilir
+- ismin bitiş kısmı **.txt** olmak zorunda
+
+```ls``` , ```rm``` gibi komutlarda dosya isimleri bu şekilde kullanıbilir.
+
+# CAT
+
+Dosyaların içeriğini terminale basar
 
 
 
