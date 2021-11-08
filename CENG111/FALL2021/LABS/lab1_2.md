@@ -163,7 +163,7 @@ Dosya1 için izinler;
 Dosya1'in izinlerini 640 olarak yazabilirz.
 
 
-# LAB1 KOMUTLAR
+# LAB1- LAB2 KOMUT VE KAVRAMLAR
 
 Komutları kullanmaya alışmak için [Bandit Oyununun Birkaç Seviyesi](https://overthewire.org/wargames/bandit/) yararlı olabilir. Seviyeler ilerledikçe bu lab'ın gereksinimlerinin çok üstüne çıktığı için sadece merak edenler bakabilir.
 
@@ -811,9 +811,95 @@ Wildcardlar komut değildir, fakat bazı ifadeleri ayırt etmemizi sağlamaktad�
 
 # CAT
 
-Dosyaların içeriğini terminale basar
+Dosyaların içeriğini terminale basar.
 
+```bash
+e2098929@inek15:~/Desktop$ cat sifre.txt
+sifre=olimp
+```
 
+# MORE
 
+Dosya içeriğini bölüm bölüm göstermek için kullanılabilir. ```Enter``` tuşuyla satır satır, ```Space``` tuşuyla sayfa sayfa geçilebilir. ```q``` tuşuyla ise çıkılır
 
+# LESS
 
+```Yukarı``` ve ```Aşağı``` yön tuşlarıyla dosya içeriğini gezebilmemizi sağlar. ```q``` tuşu ile çıkılır
+
+# WGET
+
+Internetten dosya çekebilmemizi sağlar.
+
+Örneğin
+
+```bash
+e2098929@inek15:~/Desktop$ wget http://ceng.metu.edu.tr/
+```
+
+bölüm sitesinin **.html** dosyası çekilir
+
+# GREP
+
+Dosyaların içinde bulunan kelimeleri aratmak için kullanılır. Önceki komutta ```wget``` ile bölüm sitesinin **.html** dosyasını indirmiştik. Bu dosyada **Department** kelimesini aratırsak
+
+```bash
+e2098929@inek15:~/Desktop$ grep Department *.html
+index.html:  <title>Department of Computer Engineering</title>
+index.html:            <span><a  href="/">Department of Computer Engineering</a></span>
+index.html:          <div class="research-body">Multimedia Database Laboratory, established in 2006 at Computer Engineering Department of Middle Eas <a href="/research/multimedia-database-research-lab" class="views-more-link">Learn more</a></div>  </div>
+index.html:          <h4 class="list-title"><a href="/departmental-diploma-ceremony">Departmental Diploma Ceremony</a></h4>  </li>
+```
+# STDIN - STDOUT - STDERR
+
+Bilgisayarımızda çalışan her işlemin 3 tane ana **file descriptor**'u vardır. Bunlar **stdin**, **stdout** ve **stderr**'dir.
+
+- **stdin**: işlemin inputu
+- **stdout**: işlemin outputu -> varsayılan olarak terminale basılır
+- **stderr**: işlemde oluşan hatalar -> varsayılan olarak terminale basılır
+
+Biz programların **stdin**, **stdout** ve **stderr**'in nerelere yazılacağına kendimiz karar verebiliriz. Bunun için bu kısımları istediğimiz yerlere yönlendirmemiz gerekir.
+
+## STDIN yönlendirme '<'
+
+Örnek olarak ```cat``` komutunun input olarak dosya alması gerekiyor. Bu inputu argüman olarak da yazabiliirz '<' sembolü ile **stdin** i yönlendirerek de yapabiliriz
+
+```bash
+e2098929@inek15:~/Desktop$ cat permission.sh
+echo "Permission Granted!"
+e2098929@inek15:~/Desktop$ cat < permission.sh
+echo "Permission Granted!"
+```
+
+## STDOUT dosyaya yönlendirme '>'
+
+Komutların sonuçları terminale basılacağına dosyaya kaydedilir.
+
+```bash
+e2098929@inek15:~/Desktop$ ls -la > lsOutput.txt
+e2098929@inek15:~/Desktop$ cat lsOutput.txt
+total 52
+drwxr-xr-x  3 e2098929 uucp  4096 Kas  3 16:26 -
+drwx------ 11 e2098929 uucp  4096 Kas  8 20:16 .
+drwxr-xr-x 23 e2098929 staff 4096 Kas  8 19:19 ..
+drwx------  3 e2098929 uucp  4096 Kas  3 00:01 Dev
+drwxr-xr-x  5 e2098929 uucp  4096 Kas  8 18:46 Dir1
+drwxr-xr-x  2 e2098929 uucp  4096 Kas  3 16:25 Dir2
+drwx------  3 e2098929 uucp  4096 Kas  3 00:37 lab
+-rw-------  1 e2098929 uucp     0 Kas  8 20:16 lsOutput.txt
+```
+
+## STDERR dosyaya yönlendirme '2>'
+
+Komutlardan elde edilen hatalar kaydedilir
+
+```bash
+e2098929@inek15:~/Desktop$ ls -la  asdasdasdasdas.txt 2> lsOutput.txt
+e2098929@inek15:~/Desktop$ cat lsOutput.txt
+ls: cannot access 'asda.txt': No such file or directory
+```
+
+**STDOUT** ve **STDERR** dosya yönlendirmesinde sadece bir '>' kullanılırsa dosya içinde önceden yazılmış tüm bilgiler silinir. Fakat biz dosyada daha önce var olan bilgilerin altına yazdırmak istiyorsak **stdout** için '>>', **stderr** için '2>>' kullanmamız gerekir.
+
+# PIPE
+
+Birden fazla programın inputları ile outputlarını birbirine bağlamamızı sağlar.
