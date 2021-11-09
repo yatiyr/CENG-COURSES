@@ -766,7 +766,7 @@ e2098929@inek15:~/Desktop$ du -sh Dir1
 
 Dosyaların izinlerini değiştirmemizi sağlar. [Permissions](#permissions) kısmında belirtilen kurallar çerçevesinde **user**,**group** ve **other** için 8'lik tabanda sayılar yazılır. Örneğin ```chmod 755``` gibi.
 
-Örneğin ```~/Desktop``` içinde ```permission.sh`` diye bir dosyamız olsun;
+Örneğin ```~/Desktop``` içinde ```permission.sh``` diye bir dosyamız olsun;
 
 ```bash
 e2098929@inek15:~/Desktop$ ls -l permission.txt
@@ -825,6 +825,14 @@ Dosya içeriğini bölüm bölüm göstermek için kullanılabilir. ```Enter``` 
 # LESS
 
 ```Yukarı``` ve ```Aşağı``` yön tuşlarıyla dosya içeriğini gezebilmemizi sağlar. ```q``` tuşu ile çıkılır
+
+# TAIL
+
+Dosyayı belirttiğimiz kadar satır ya da byte kadar tersten okur ve ekrana basar. Ayrıca ```-f``` parametresi kullanarak anlık dosya değişikliklerini görüntüleyebiliriz
+
+```bash
+e2098929@inek15:~/Desktop$ tail -f dosya.txt
+```
 
 # WGET
 
@@ -903,3 +911,10 @@ ls: cannot access 'asda.txt': No such file or directory
 # PIPE
 
 Birden fazla programın inputları ile outputlarını birbirine bağlamamızı sağlar.
+
+Örneğin
+
+```bash
+e2098929@inek15:~/Desktop$ ps aux | grep firefox
+e2098929      9927  0.0  0.0  20412  2820 pts/2    S+   13:03   0:00 grep --color=auto firefox
+```
